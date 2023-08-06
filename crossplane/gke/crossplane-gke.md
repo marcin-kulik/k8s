@@ -119,6 +119,13 @@ Billing account and Compute Engine API needs to be enabled
 kubectl apply -f ./crossplane/gke/network.yaml
 ```
 
+**Create GKE**
+
+Kubernetes Engine API need to be enabled
+
+```shell
+kubectl apply -f ./crossplane/gke/gke-cluster.yaml
+```
 
 **References**
 
