@@ -100,3 +100,8 @@ EOF
 ```shell
 kubectl apply -f provider-config.yaml
 ```
+
+
+**References**
+
+https://medium.com/quiqup-engineering/creating-a-gke-cluster-using-crossplane-a45253c04efa
