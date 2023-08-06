@@ -1,13 +1,13 @@
 # Install Crossplane on the local cluster
 
-### Create a namespace and enter with kubens
+**Create a namespace and enter with kubens**
 
 ```shell
 kubectl create namespace crossplane-system
 kubens crossplane-system
 ```
 
-### Create project in GCP
+**Create project in GCP**
 
 ```shell
 gcloud projects create <project-id>
@@ -19,7 +19,7 @@ gcloud config set project <project-id>
 gcloud config get-value project
 ```
 
-### Create service account for the project
+**Create service account for the project**
 
 ```shell
 gcloud iam service-accounts create <service-account-name> \
@@ -27,7 +27,7 @@ gcloud iam service-accounts create <service-account-name> \
 --display-name="crossplane"
 ```
 
-### Add permissions to the service account
+**Add permissions to the service account**
 
 ```shell
 gcloud projects add-iam-policy-binding <project-id> \
@@ -37,14 +37,14 @@ gcloud projects add-iam-policy-binding <project-id> \
 --role roles/iam.serviceAccountUser
 ```
 
-### Create JSON key for the service account
+**Create JSON key for the service account**
 
 ```shell
 gcloud iam service-accounts keys create crossplane-key.json \
 --iam-account <service-account-name>@<project-id>.iam.gserviceaccount.com
 ```
 
-### Create and apply secret for authentication using json key
+**Create and apply secret for authentication using json key**
 
 ```shell
 cat > authentication.yaml <<EOF
@@ -63,7 +63,7 @@ EOF
 kubectl apply -f authentication.yaml
 ```
 
-### Install Crossplane
+**Install Crossplane**
 
 ```shell
 curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
@@ -76,4 +76,27 @@ kubectl crossplane install provider crossplane/provider-gcp:master
 ```
 ```shell
 kubectl get providers
+```
+
+**Configure a GCP cloud ProviderConfig resource in Crossplane** 
+
+```shell
+cat > provider-config.yaml <<EOF
+apiVersion: gcp.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+name: crossplane-provider-gcp
+spec:
+projectID: <project-id>
+credentials:
+source: Secret
+secretRef:
+namespace: crossplane-system
+name: gcp-account-creds
+key: credentials
+EOF
+```
+
+```shell
+kubectl apply -f provider-config.yaml
 ```
