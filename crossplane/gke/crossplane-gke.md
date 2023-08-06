@@ -1,5 +1,12 @@
 # Install Crossplane on the local cluster
 
+### Create a namespace and enter with kubens
+
+```shell
+kubectl create namespace crossplane-system
+kubens crossplane-system
+```
+
 ### Create project in GCP
 
 ```shell
