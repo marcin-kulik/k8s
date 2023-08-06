@@ -32,8 +32,18 @@ gcloud iam service-accounts create <service-account-name> \
 ```shell
 gcloud projects add-iam-policy-binding <project-id> \
 --member='serviceAccount:<service-account-name>@<project-id>.iam.gserviceaccount.com' \
---role roles/compute.networkAdmin \
---role roles/container.admin \
+--role roles/compute.networkAdmin 
+```
+
+```shell
+gcloud projects add-iam-policy-binding <project-id> \
+--member='serviceAccount:<service-account-name>@<project-id>.iam.gserviceaccount.com' \
+--role roles/container.admin
+```
+
+```shell
+gcloud projects add-iam-policy-binding <project-id> \
+--member='serviceAccount:<service-account-name>@<project-id>.iam.gserviceaccount.com' \
 --role roles/iam.serviceAccountUser
 ```
 
@@ -99,6 +109,14 @@ EOF
 
 ```shell
 kubectl apply -f provider-config.yaml
+```
+
+**Create network for GKE**
+
+Billing account and Compute Engine API needs to be enabled
+
+```shell
+kubectl apply -f ./crossplane/gke/network.yaml
 ```
 
 
